@@ -1,69 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/material_grey_600"
-        android:orientation="vertical"
-        android:padding="40dp"
-        android:text="@string/spotifyStreamer">
+        android:layout_height="64dp"
+        android:background="@color/color_primary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/main_toolbarTitle"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:text="@string/myNanoDegreeApps"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:textColor="@android:color/white"
+            tools:ignore="MissingPrefix"/>
 
-        <Button
-            android:id="@+id/button_movie_db"
-            style="@style/tealButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/spotifyStreamer"/>
+    </android.support.v7.widget.Toolbar>
 
-        <Button
-            android:id="@+id/button_scores_app"
-            style="@style/tealButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/scoresApp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <Button
-            android:id="@+id/button_library_app"
-            style="@style/tealButton"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/libaryApp"/>
+            android:layout_height="match_parent"
+            android:background="@color/material_grey_600"
+            android:orientation="vertical"
+            android:padding="40dp">
 
-        <Button
-            android:id="@+id/button_build_it_bigger"
-            style="@style/tealButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/material_deep_teal_200"
-            android:text="@string/buildItBigger"/>
+            <Button
+                android:id="@+id/button_movie_db"
+                style="@style/primaryColorButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/movieDatabase"/>
 
-        <Button
-            android:id="@+id/button_xyz_reader"
-            style="@style/tealButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/xyzReader"/>
+            <Button
+                android:id="@+id/button_scores_app"
+                style="@style/primaryColorButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scoresApp"/>
 
-        <Button
-            android:id="@+id/button_capstone_my_app"
-            style="@style/purpleButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/capstoneMyOwnApp"/>
-    </LinearLayout>
-</ScrollView>
+            <Button
+                android:id="@+id/button_library_app"
+                style="@style/primaryColorButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/libaryApp"/>
+
+            <Button
+                android:id="@+id/button_build_it_bigger"
+                style="@style/primaryColorButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/buildItBigger"/>
+
+            <Button
+                android:id="@+id/button_xyz_reader"
+                style="@style/primaryColorButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/xyzReader"/>
+
+            <Button
+                android:id="@+id/button_capstone_my_app"
+                style="@style/accentColorButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/capstoneMyOwnApp"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="tealButton" parent="@android:style/Widget.Button">
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:backgroundTint">@color/material_deep_teal_200</item>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/accent_color</item>
     </style>
-    <style name="purpleButton" parent="@android:style/Widget.Button">
+    <style name="custom_toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">@android:color/white</item>
+    </style>
+    <style name="primaryColorButton" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">16dp</item>
@@ -18,6 +18,16 @@
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:backgroundTint">@color/indigo</item>
+        <item name="android:backgroundTint">@color/color_primary</item>
+    </style>
+    <style name="accentColorButton" parent="@android:style/Widget.Button">
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:backgroundTint">@color/accent_color</item>
     </style>
 </resources>
