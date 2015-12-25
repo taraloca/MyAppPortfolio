@@ -10,20 +10,7 @@
         android:layout_height="64dp"
         android:background="@color/color_primary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <TextView
-            android:id="@+id/main_toolbarTitle"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="@string/myNanoDegreeApps"
-            android:textColor="@android:color/white"
-            tools:ignore="MissingPrefix"/>
-
-    </android.support.v7.widget.Toolbar>
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <ScrollView
         android:layout_width="match_parent"

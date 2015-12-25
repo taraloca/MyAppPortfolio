@@ -1,22 +1,27 @@
 package terrafirmacreations.portfolio.movieDb;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.GridView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+
+import com.squareup.okhttp.OkHttpClient;
 
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit.client.OkClient;
 import terrafirmacreations.portfolio.R;
-import terrafirmacreations.portfolio.movieDb.API.MovieDatabaseApiCient;
+import terrafirmacreations.portfolio.movieDb.API.MovieDatabaseApiClient;
 import terrafirmacreations.portfolio.movieDb.Model.MovieDbModel;
 import terrafirmacreations.portfolio.movieDb.Model.MovieDbResults;
 
@@ -26,42 +31,47 @@ import terrafirmacreations.portfolio.movieDb.Model.MovieDbResults;
  */
 public class TheMovieDbActivity extends AppCompatActivity {
 
-    private GridView gridView;
-    private List<MovieDbResults> movieDbResultsList;
+	private GridView gridView;
+	private List<MovieDbResults> movieDbResultsList;
 	private String ENDPOINT_URL = "https://api.themoviedb.org";
+	Toolbar topToolBar;
+	ProgressBar progressBar;
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.movie_db_activity);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.movie_db_activity);
+		gridView = (GridView) findViewById(R.id.gridView);
 
-	    gridView = (GridView)findViewById(R.id.gridView);
+		topToolBar = (Toolbar) findViewById(R.id.toolbar);
 
-	    Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar);
-	    setSupportActionBar(topToolBar);
-	    getSupportActionBar().setDisplayShowTitleEnabled(false);
+		setSupportActionBar(topToolBar);
 
-        final RestAdapter restadapter = new RestAdapter.Builder().setEndpoint(ENDPOINT_URL).build();
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        MovieDatabaseApiCient apiLocation = restadapter.create(MovieDatabaseApiCient.class);
+		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-	    apiLocation.getData(new Callback<MovieDbModel>() {
-		    @Override
-		    public void success(MovieDbModel movieModels, Response response) {
-			    movieDbResultsList = movieModels.getResults();
-			    MoviesGridViewAdapter adapter = new MoviesGridViewAdapter(getApplicationContext(), R.layout.movie_gridview_item, movieDbResultsList);
-			    gridView.setAdapter(adapter);
-		    }
+		retrieveSavedPreferences();
 
-		    @Override
-		    public void failure(RetrofitError error) {
-			    Log.d("ERROR", error.toString());
-			    Toast.makeText(getApplicationContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
-		    }
-	    });
+	}
 
-    }
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		retrieveSavedPreferences();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,9 +89,76 @@ public class TheMovieDbActivity extends AppCompatActivity {
 
 		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_settings) {
+			Intent i = new Intent(this, PreferencesActivity.class);
+			startActivity(i);
 			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
+
+	private void retrieveSavedPreferences() {
+		SharedPreferences sharedPreferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		String name = sharedPreferences.getString("movieSortOrder", "-1");
+		setTitleAndSubtitle(name);
+
+		if (name != null) {
+			name = name.equals("1") ? this.getString(R.string.sort_order_popularity) : this.getString(R.string.sort_order_vote_average);
+
+			makeDataCall(name);
+		}
+
+	}
+
+	/**
+	 * Sets the Title and Subtitle on the Toolbar.
+	 *
+	 * @param name
+	 */
+	private void setTitleAndSubtitle(String name) {
+		name = name.equals("1") ? this.getString(R.string.popularity) : this.getString(R.string.highest_rating);
+
+		topToolBar.setTitle(getString(R.string.movieDatabase));
+		topToolBar.setSubtitle(name);
+	}
+
+	/**
+	 * Gets requested data with user choice of sort order. Default run is sort order of Popularity.
+	 *
+	 * @param sortOrderName
+	 */
+	private void makeDataCall(String sortOrderName) {
+		// creating a RestAdapter using the custom client
+		OkHttpClient okHttpClient = new OkHttpClient();
+		RestAdapter restAdapter = new RestAdapter.Builder()
+				.setEndpoint(ENDPOINT_URL)
+				.setLogLevel(RestAdapter.LogLevel.FULL)
+				.setClient(new OkClient(okHttpClient))
+				.build();
+
+		MovieDatabaseApiClient client = restAdapter.create(MovieDatabaseApiClient.class);
+		progressBar.setVisibility(View.VISIBLE);
+
+		retrofit.Callback<MovieDbModel> callback = new Callback<MovieDbModel>() {
+			@Override
+			public void success(MovieDbModel movieModels, retrofit.client.Response response) {
+				movieDbResultsList = movieModels.getResults();
+				MoviesGridViewAdapter adapter = new MoviesGridViewAdapter(getApplicationContext(), R.layout.movie_gridview_item, movieDbResultsList);
+				gridView.setAdapter(adapter);
+				progressBar.setVisibility(View.GONE);
+
+			}
+
+			@Override
+			public void failure(RetrofitError error) {
+
+			}
+		};
+
+		client.getData(getResources().getString(R.string.api_key), sortOrderName, callback);
+	}
+
+
 }

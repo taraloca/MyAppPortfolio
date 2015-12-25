@@ -5,7 +5,7 @@ package terrafirmacreations.portfolio.movieDb;
  */
 public class MovieDetailsActivity {
 
-    private String movieSynopsis;
-    private String movieRating;
-    private String movieReleaseDate;
+	private String movieSynopsis;
+	private String movieRating;
+	private String movieReleaseDate;
 }

@@ -6,9 +6,8 @@ import java.util.List;
  * Created by verityt on 12/15/15.
  */
 
-public class MovieDbModel
-{
-	private List<MovieDbResults>results;
+public class MovieDbModel {
+	private List<MovieDbResults> results;
 
 	private String page;
 
@@ -16,50 +15,41 @@ public class MovieDbModel
 
 	private String total_results;
 
-	public List<MovieDbResults> getResults ()
-	{
+	public List<MovieDbResults> getResults() {
 		return results;
 	}
 
-	public void setResults (List<MovieDbResults> results)
-	{
+	public void setResults(List<MovieDbResults> results) {
 		this.results = results;
 	}
 
-	public String getPage ()
-	{
+	public String getPage() {
 		return page;
 	}
 
-	public void setPage (String page)
-	{
+	public void setPage(String page) {
 		this.page = page;
 	}
 
-	public String getTotal_pages ()
-	{
+	public String getTotal_pages() {
 		return total_pages;
 	}
 
-	public void setTotal_pages (String total_pages)
-	{
+	public void setTotal_pages(String total_pages) {
 		this.total_pages = total_pages;
 	}
 
-	public String getTotal_results ()
-	{
+	public String getTotal_results() {
 		return total_results;
 	}
 
-	public void setTotal_results (String total_results)
-	{
+	public void setTotal_results(String total_results) {
 		this.total_results = total_results;
 	}
 
 	@Override
-	public String toString()
-	{
-		return "ClassPojo [results = "+results+", page = "+page+", total_pages = "+total_pages+", total_results = "+total_results+"]";
+	public String toString() {
+		return "ClassPojo [results = " + results + ", page = " + page + ", total_pages = " + total_pages + ", total_results = " + total_results + "]";
 	}
 }
 
