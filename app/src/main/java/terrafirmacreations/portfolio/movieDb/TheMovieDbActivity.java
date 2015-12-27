@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
@@ -31,11 +33,12 @@ import terrafirmacreations.portfolio.movieDb.Model.MovieDbResults;
  */
 public class TheMovieDbActivity extends AppCompatActivity {
 
+	private final String DEBUG = getClass().getSimpleName();
+	Toolbar topToolBar;
+	ProgressBar progressBar;
 	private GridView gridView;
 	private List<MovieDbResults> movieDbResultsList;
 	private String ENDPOINT_URL = "https://api.themoviedb.org";
-	Toolbar topToolBar;
-	ProgressBar progressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,20 @@ public class TheMovieDbActivity extends AppCompatActivity {
 		setContentView(R.layout.movie_db_activity);
 
 		gridView = (GridView) findViewById(R.id.gridView);
+		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+				//Get item at position
+				MovieDbResults item = (MovieDbResults) parent.getItemAtPosition(position);
+
+				Intent intent = new Intent(TheMovieDbActivity.this, MovieDetailsActivity.class);
+
+				setIntentExtras(intent, item);
+
+				//Start details activity
+				startActivity(intent);
+			}
+		});
 
 		topToolBar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -97,6 +114,14 @@ public class TheMovieDbActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void setIntentExtras(Intent intent, MovieDbResults item) {
+		intent.putExtra(Constants.MovieProperties.MOVIE_TITLE, item.getTitle());
+		intent.putExtra(Constants.MovieProperties.MOVIE_SYNOPSIS, item.getOverview());
+		intent.putExtra(Constants.MovieProperties.MOVIE_REALEASE_DATE, item.getRelease_date());
+		intent.putExtra(Constants.MovieProperties.MOVIE_RATING, item.getVote_average());
+		intent.putExtra(Constants.MovieProperties.MOVIE_POSTER_PATH, item.getPoster_path());
+	}
+
 	private void retrieveSavedPreferences() {
 		SharedPreferences sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -109,7 +134,6 @@ public class TheMovieDbActivity extends AppCompatActivity {
 
 			makeDataCall(name);
 		}
-
 	}
 
 	/**
@@ -148,17 +172,14 @@ public class TheMovieDbActivity extends AppCompatActivity {
 				MoviesGridViewAdapter adapter = new MoviesGridViewAdapter(getApplicationContext(), R.layout.movie_gridview_item, movieDbResultsList);
 				gridView.setAdapter(adapter);
 				progressBar.setVisibility(View.GONE);
-
 			}
 
 			@Override
 			public void failure(RetrofitError error) {
-
+				Log.e(DEBUG, "RetrofitError is " + error.toString());
 			}
 		};
 
 		client.getData(getResources().getString(R.string.api_key), sortOrderName, callback);
 	}
-
-
 }

@@ -6,7 +6,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.widget.Toast;
 
 import terrafirmacreations.portfolio.R;
 
@@ -22,7 +21,6 @@ public class PreferencesActivity extends PreferenceActivity implements SharedPre
 				.beginTransaction()
 				.replace(android.R.id.content, new MyPreferenceFragment())
 				.commit();
-
 	}
 
 	@Override
@@ -35,7 +33,6 @@ public class PreferencesActivity extends PreferenceActivity implements SharedPre
 		if (p instanceof ListPreference) {
 			ListPreference listPreference = (ListPreference) p;
 			p.setSummary(listPreference.getEntry());
-			Toast.makeText(this, "Got the preference update", Toast.LENGTH_LONG);
 		}
 	}
 
